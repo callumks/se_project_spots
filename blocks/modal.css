@@ -1,6 +1,7 @@
 .modal {
   visibility: hidden;
-  background-color: #00000000;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   right: 0;
@@ -10,10 +11,12 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
+  transition: visibility 0.3s, opacity 0.3s;
 }
 
 .modal_is-opened {
   visibility: visible;
+  opacity: 1;
 }
 
 .modal__container {
