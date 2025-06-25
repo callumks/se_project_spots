@@ -91,6 +91,11 @@
   font-weight: 500;
   line-height: 100%;
   letter-spacing: 0%;
+  cursor: pointer;
+}
+
+.modal__submit-button:hover {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 627px) {
