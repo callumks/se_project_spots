@@ -49,6 +49,9 @@ function handleProfileFormSubmit(evt) {
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
+  console.log("Image link:", linkInput.value);
+  console.log("Caption:", captionInput.value);
+
   addCardFormElement.reset();
 
   closeModal(newPostModal);

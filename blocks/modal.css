@@ -82,7 +82,7 @@
 }
 
 .modal__submit-button {
-  width: 100%;
+  width: 156px;
   height: 52px;
   padding: 16px 12px;
   border-radius: 8px;
@@ -94,6 +94,7 @@
   letter-spacing: 0%;
   cursor: pointer;
   box-sizing: border-box;
+  border: none;
 }
 
 .modal__submit-button:hover {
@@ -103,5 +104,9 @@
 @media screen and (max-width: 627px) {
   .modal__title {
     font-size: 20px;
+  }
+
+  .modal__submit-button {
+    width: 100%;
   }
 }
