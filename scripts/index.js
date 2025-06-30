@@ -1,27 +1,27 @@
 const initialCards = [
   {
-    name: "Aruba",
-    link: "./images/aruba.JPG",
+    name: "Yosemite Valley",
+    link: "./images/1-photo-by-moritz-feldmann-from-pexels.jpg",
   },
   {
-    name: "Berlin Skyline",
-    link: "./images/berlin-skyline.jpg",
+    name: "Lake Louise",
+    link: "./images/2-photo-by-ceiline-from-pexels.jpg",
   },
   {
-    name: "Canyon, New York",
-    link: "./images/canyon.JPG",
+    name: "Bald Mountains",
+    link: "./images/3-photo-by-tubanur-dogan-from-pexels.jpg",
   },
   {
-    name: "Quartz Quarry, Italy",
-    link: "./images/quarry-crane.jpg",
+    name: "Latemar",
+    link: "./images/4-photo-by-maurice-laschet-from-pexels.jpg",
   },
   {
-    name: "Val Masino, Italy",
-    link: "./images/val-masino.JPG",
+    name: "Vanoise National Park",
+    link: "./images/5-photo-by-van-anh-nguyen-from-pexels.jpg",
   },
   {
-    name: "Split, Croatia",
-    link: "./images/split.jpg",
+    name: "Lago di Braies",
+    link: "./images/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
 
