@@ -1,13 +1,35 @@
-console.log("✅ Script is connected! Hello from index.js");
+const initialCards = [
+  {
+    name: "Aruba",
+    link: "./images/aruba.JPG",
+  },
+  {
+    name: "Berlin Skyline",
+    link: "./images/berlin-skyline.jpg",
+  },
+  {
+    name: "Canyon, New York",
+    link: "./images/canyon.JPG",
+  },
+  {
+    name: "Quartz Quarry, Italy",
+    link: "./images/quarry-crane.jpg",
+  },
+  {
+    name: "Val Masino, Italy",
+    link: "./images/val-masino.JPG",
+  },
+  {
+    name: "Split, Croatia",
+    link: "./images/split.jpg",
+  },
+];
 
 const editProfileButton = document.querySelector(".profile__edit-btn");
-console.log("Edit Profile button:", editProfileButton);
 
 const modal = document.querySelector("#edit-profile-modal");
-console.log("Modal:", modal);
 
 const closeButton = modal.querySelector(".modal__close-button");
-console.log("Close button:", closeButton);
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -16,23 +38,16 @@ const nameInput = document.querySelector("#profile-name-input");
 const descriptionInput = document.querySelector("#profile-description-input");
 
 const profileFormElement = modal.querySelector(".modal__form");
-console.log("Profile form:", profileFormElement);
 
 const addButton = document.querySelector(".profile__add-btn");
-console.log("New Post button:", addButton);
 
 const newPostModal = document.querySelector("#new-post-modal");
-console.log("New Post modal:", newPostModal);
 
 const newPostCloseButton = newPostModal.querySelector(".modal__close-button");
-console.log("New Post close button:", newPostCloseButton);
 
 const addCardFormElement = newPostModal.querySelector(".modal__form");
 const linkInput = newPostModal.querySelector("#card-image-input");
 const captionInput = newPostModal.querySelector("#card-caption-input");
-console.log("Add card form:", addCardFormElement);
-console.log("Link input:", linkInput);
-console.log("Caption input:", captionInput);
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
@@ -64,8 +79,7 @@ function handleAddCardSubmit(evt) {
   console.log("Image link:", linkInput.value);
   console.log("Caption:", captionInput.value);
 
-  linkInput.value = "";
-  captionInput.value = "";
+  addCardFormElement.reset();
 
   closeModal(newPostModal);
 }
@@ -90,4 +104,8 @@ addButton.addEventListener("click", () => {
 
 newPostCloseButton.addEventListener("click", () => {
   closeModal(newPostModal);
+});
+
+initialCards.forEach((card) => {
+  console.log(card.name);
 });
