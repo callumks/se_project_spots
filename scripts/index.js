@@ -56,10 +56,15 @@ function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
+  const likeButton = cardElement.querySelector(".card__like-btn");
 
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
+
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-btn_active");
+  });
 
   return cardElement;
 }
