@@ -3,6 +3,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .card__image {
@@ -43,6 +44,22 @@
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
+}
+
+.card__delete-btn {
+  cursor: pointer;
+  background-image: url(../images/delete-icon.svg);
+  width: 32px;
+  height: 32px;
+  border: none;
+  opacity: 1;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  position: absolute;
+  top: 10px;
+  left: 371px;
 }
 
 .card__like-btn:hover {
