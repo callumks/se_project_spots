@@ -91,11 +91,15 @@ function handleProfileFormSubmit(evt) {
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
-  console.log("Image link:", linkInput.value);
-  console.log("Caption:", captionInput.value);
+  const newCardData = {
+    name: captionInput.value,
+    link: linkInput.value,
+  };
+
+  const newCardElement = getCardElement(newCardData);
+  cardsList.prepend(newCardElement);
 
   addCardFormElement.reset();
-
   closeModal(newPostModal);
 }
 
