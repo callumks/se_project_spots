@@ -23,6 +23,10 @@ const initialCards = [
     name: "Lago di Braies",
     link: "./images/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
+  {
+    name: "Landscape Example",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
+  },
 ];
 
 const editProfileButton = document.querySelector(".profile__edit-btn");
@@ -52,6 +56,12 @@ const captionInput = newPostModal.querySelector("#card-caption-input");
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
+// Preview image modal elements
+const previewImageModal = document.querySelector('#preview-image-modal');
+const previewImage = previewImageModal.querySelector('.modal__image');
+const previewCaption = previewImageModal.querySelector('.modal__caption');
+const previewCloseButton = previewImageModal.querySelector('.modal__close-button');
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
@@ -62,6 +72,14 @@ function getCardElement(data) {
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
+
+  // Preview image modal logic
+  cardImage.addEventListener("click", () => {
+    previewImage.src = data.link;
+    previewImage.alt = data.name;
+    previewCaption.textContent = data.name;
+    openModal(previewImageModal);
+  });
 
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-btn_active");
@@ -134,6 +152,11 @@ addButton.addEventListener("click", () => {
 
 newPostCloseButton.addEventListener("click", () => {
   closeModal(newPostModal);
+});
+
+// Preview image modal close button
+previewCloseButton.addEventListener("click", () => {
+  closeModal(previewImageModal);
 });
 
 initialCards.forEach((cardData) => {
