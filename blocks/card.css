@@ -62,6 +62,11 @@
   left: 371px;
 }
 
+.card__delete-btn:hover {
+  background-image: url(../images/delete-icon-hover.svg);
+  cursor: pointer;
+}
+
 .card__like-btn:hover {
   opacity: 1;
   cursor: pointer;
