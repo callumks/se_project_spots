@@ -1,31 +1,31 @@
 const initialCards = [
   {
-    name: "Yosemite Valley",
-    link: "./images/1-photo-by-moritz-feldmann-from-pexels.jpg",
+    name: "Squamish Forest",
+    link: "./images/1-squamish.JPG",
   },
   {
-    name: "Lake Louise",
-    link: "./images/2-photo-by-ceiline-from-pexels.jpg",
+    name: "Prospect Park",
+    link: "./images/2-prospect.JPG",
   },
   {
-    name: "Bald Mountains",
-    link: "./images/3-photo-by-tubanur-dogan-from-pexels.jpg",
+    name: "NYC Skyline",
+    link: "./images/3-NF-FC.JPG",
   },
   {
-    name: "Latemar",
-    link: "./images/4-photo-by-maurice-laschet-from-pexels.jpg",
+    name: "Aruba Desert",
+    link: "./images/4-aruba.JPG",
   },
   {
-    name: "Vanoise National Park",
-    link: "./images/5-photo-by-van-anh-nguyen-from-pexels.jpg",
+    name: "Val di Mello",
+    link: "./images/5-val-di-mello.JPG",
   },
   {
-    name: "Lago di Braies",
-    link: "./images/6-photo-by-moritz-feldmann-from-pexels.jpg",
+    name: "Red Rocks",
+    link: "./images/6-red-rocks.jpg",
   },
   {
-    name: "Landscape Example",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
+    name: "Vasquez Rocks",
+    link: "./images/7-vasquez-rocks.JPG",
   },
 ];
 
@@ -57,10 +57,12 @@ const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
 // Preview image modal elements
-const previewImageModal = document.querySelector('#preview-image-modal');
-const previewImage = previewImageModal.querySelector('.modal__image');
-const previewCaption = previewImageModal.querySelector('.modal__caption');
-const previewCloseButton = previewImageModal.querySelector('.modal__close-button');
+const previewImageModal = document.querySelector("#preview-image-modal");
+const previewImage = previewImageModal.querySelector(".modal__image");
+const previewCaption = previewImageModal.querySelector(".modal__caption");
+const previewCloseButton = previewImageModal.querySelector(
+  ".modal__close-button"
+);
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
