@@ -130,13 +130,17 @@
   background: transparent;
   box-shadow: none;
   padding: 0;
-  max-width: 80vw;
-  max-height: 80vh;
+  max-width: none;
+  max-height: none;
+  width: fit-content;
+  height: fit-content;
 }
 
 .preview-image-modal .modal__close-button {
   background-image: url(../images/modal-x-button-dark-mode.svg);
   opacity: 100%;
+  right: -50px;
+  top: 0;
 }
 .preview-image-modal .modal__close-button:hover {
   opacity: 40%;
@@ -149,10 +153,9 @@
   border-radius: 8px;
   margin-top: 4px;
   font-size: 18px;
-  display: flex;
-  max-width: 80vw;
-  justify-content: start;
-  align-items: start;
+  width: fit-content;
+  max-width: 100%;
+  text-align: left;
   word-break: break-word;
 }
 

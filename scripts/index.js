@@ -1,6 +1,6 @@
 const initialCards = [
   {
-    name: "Squamish Forest",
+    name: "Squamish, BC",
     link: "./images/1-squamish.JPG",
   },
   {
@@ -8,11 +8,11 @@ const initialCards = [
     link: "./images/2-prospect.JPG",
   },
   {
-    name: "NYC Skyline",
+    name: "New York",
     link: "./images/3-NF-FC.JPG",
   },
   {
-    name: "Aruba Desert",
+    name: "Aruba",
     link: "./images/4-aruba.JPG",
   },
   {
