@@ -52,7 +52,6 @@ const captionInput = newPostModal.querySelector("#card-caption-input");
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
-// Preview image modal elements
 const previewImageModal = document.querySelector("#preview-image-modal");
 const previewImage = previewImageModal.querySelector(".modal__image");
 const previewCaption = previewImageModal.querySelector(".modal__caption");
@@ -68,7 +67,6 @@ function getCardElement(data) {
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
 
-  // Preview image modal logic
   cardImage.addEventListener("click", () => {
     previewImage.src = data.link;
     previewImage.alt = data.name;
@@ -86,6 +84,14 @@ function getCardElement(data) {
   });
 
   return cardElement;
+}
+
+// The function accepts a card object and a method of adding to the section
+// The method is initially `prepend`, but you can pass `append`
+function renderCard(item, method = "prepend") {
+  const cardElement = getCardElement(item);
+  // Add the card into the section using the method
+  cardsList[method](cardElement);
 }
 
 function openModal(modal) {
@@ -120,8 +126,7 @@ function handleAddCardSubmit(evt) {
     link: linkInput.value,
   };
 
-  const newCardElement = getCardElement(newCardData);
-  cardsList.prepend(newCardElement);
+  renderCard(newCardData);
 
   addCardFormElement.reset();
   closeModal(newPostModal);
@@ -141,17 +146,13 @@ addButton.addEventListener("click", () => {
   openModal(newPostModal);
 });
 
-// Universal close button handler
 const closeButtons = document.querySelectorAll(".modal__close-button");
 
 closeButtons.forEach((button) => {
-  // Find the closest modal only once
   const modal = button.closest(".modal");
-  // Set the listener
   button.addEventListener("click", () => closeModal(modal));
 });
 
 initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardsList.prepend(cardElement);
+  renderCard(cardData);
 });
