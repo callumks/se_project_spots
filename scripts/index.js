@@ -86,11 +86,8 @@ function getCardElement(data) {
   return cardElement;
 }
 
-// The function accepts a card object and a method of adding to the section
-// The method is initially `prepend`, but you can pass `append`
 function renderCard(item, method = "prepend") {
   const cardElement = getCardElement(item);
-  // Add the card into the section using the method
   cardsList[method](cardElement);
 }
 
