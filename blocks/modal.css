@@ -167,6 +167,12 @@
   .modal__submit-button {
     width: 100%;
   }
+
+  .modal__close-button {
+    top: 16px;
+    right: 16px;
+  }
+
   .modal__image {
     max-width: 95vw;
     max-height: 60vh;
@@ -174,5 +180,20 @@
   .modal__caption {
     font-size: 14px;
     max-width: 95vw;
+  }
+
+  .preview-image-modal .modal__close-button {
+    background-image: url(../images/modal-x-button-dark-mode.svg);
+    opacity: 100%;
+  }
+
+  .preview-image-modal.portrait .modal__close-button {
+    right: 10px;
+    top: -45px;
+  }
+
+  .preview-image-modal.landscape .modal__close-button {
+    left: 325px;
+    top: -45px;
   }
 }

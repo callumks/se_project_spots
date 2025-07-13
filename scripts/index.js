@@ -71,6 +71,17 @@ function getCardElement(data) {
     previewImage.src = data.link;
     previewImage.alt = data.name;
     previewCaption.textContent = data.name;
+
+    previewImage.onload = () => {
+      if (previewImage.naturalWidth > previewImage.naturalHeight) {
+        previewImageModal.classList.add("landscape");
+        previewImageModal.classList.remove("portrait");
+      } else {
+        previewImageModal.classList.add("portrait");
+        previewImageModal.classList.remove("landscape");
+      }
+    };
+
     openModal(previewImageModal);
   });
 
