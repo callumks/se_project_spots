@@ -33,8 +33,6 @@ const editProfileButton = document.querySelector(".profile__edit-btn");
 
 const profileModal = document.querySelector("#edit-profile-modal");
 
-const profileCloseButton = profileModal.querySelector(".modal__close-button");
-
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -47,8 +45,6 @@ const addButton = document.querySelector(".profile__add-btn");
 
 const newPostModal = document.querySelector("#new-post-modal");
 
-const newPostCloseButton = newPostModal.querySelector(".modal__close-button");
-
 const addCardFormElement = newPostModal.querySelector(".modal__form");
 const linkInput = newPostModal.querySelector("#card-image-input");
 const captionInput = newPostModal.querySelector("#card-caption-input");
@@ -60,9 +56,6 @@ const cardsList = document.querySelector(".cards__list");
 const previewImageModal = document.querySelector("#preview-image-modal");
 const previewImage = previewImageModal.querySelector(".modal__image");
 const previewCaption = previewImageModal.querySelector(".modal__caption");
-const previewCloseButton = previewImageModal.querySelector(
-  ".modal__close-button"
-);
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
@@ -144,21 +137,18 @@ editProfileButton.addEventListener("click", () => {
   openModal(profileModal);
 });
 
-profileCloseButton.addEventListener("click", () => {
-  closeModal(profileModal);
-});
-
 addButton.addEventListener("click", () => {
   openModal(newPostModal);
 });
 
-newPostCloseButton.addEventListener("click", () => {
-  closeModal(newPostModal);
-});
+// Universal close button handler
+const closeButtons = document.querySelectorAll(".modal__close-button");
 
-// Preview image modal close button
-previewCloseButton.addEventListener("click", () => {
-  closeModal(previewImageModal);
+closeButtons.forEach((button) => {
+  // Find the closest modal only once
+  const modal = button.closest(".modal");
+  // Set the listener
+  button.addEventListener("click", () => closeModal(modal));
 });
 
 initialCards.forEach((cardData) => {
