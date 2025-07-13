@@ -189,7 +189,7 @@
 
   .preview-image-modal.portrait .modal__close-button {
     right: 10px;
-    top: -45px;
+    top: 30px;
   }
 
   .preview-image-modal.landscape .modal__close-button {

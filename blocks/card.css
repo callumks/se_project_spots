@@ -102,4 +102,11 @@
     font-size: 16px;
     max-width: 260px;
   }
+
+  .card__delete-btn {
+    width: 32px;
+    height: 32px;
+    top: 10px;
+    left: 246px;
+  }
 }
