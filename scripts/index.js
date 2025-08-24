@@ -56,6 +56,16 @@ const previewImageModal = document.querySelector("#preview-image-modal");
 const previewImage = previewImageModal.querySelector(".modal__image");
 const previewCaption = previewImageModal.querySelector(".modal__caption");
 
+// Validation configuration
+const validationConfig = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit-button",
+  inactiveButtonClass: "modal__submit-button_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
@@ -136,7 +146,11 @@ function handleAddCardSubmit(evt) {
 
   renderCard(newCardData);
 
+  // After successful submit: reset fields and validation state, disable button
   addCardFormElement.reset();
+  if (window.resetValidation) {
+    window.resetValidation(addCardFormElement, validationConfig);
+  }
   closeModal(newPostModal);
 }
 
@@ -146,7 +160,10 @@ addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 editProfileButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent.trim();
   descriptionInput.value = profileDescription.textContent.trim();
-
+  // Ensure form is valid and clean of messages when opened
+  if (window.resetValidation) {
+    window.resetValidation(profileFormElement, validationConfig);
+  }
   openModal(profileModal);
 });
 
@@ -164,3 +181,8 @@ closeButtons.forEach((button) => {
 initialCards.forEach((cardData) => {
   renderCard(cardData);
 });
+
+// Initialize validation after DOM is ready (scripts are at end of body)
+if (window.enableValidation) {
+  window.enableValidation(validationConfig);
+}
