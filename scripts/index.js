@@ -56,15 +56,15 @@ const previewImageModal = document.querySelector("#preview-image-modal");
 const previewImage = previewImageModal.querySelector(".modal__image");
 const previewCaption = previewImageModal.querySelector(".modal__caption");
 
-// Validation configuration
-const validationConfig = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__input",
-  submitButtonSelector: ".modal__submit-button",
-  inactiveButtonClass: "modal__submit-button_disabled",
-  inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible",
-};
+// Escape key handler for open modals
+function handleEscClose(evt) {
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal_is-opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
@@ -114,10 +114,12 @@ function renderCard(item, method = "prepend") {
 
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+  document.addEventListener("keydown", handleEscClose);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
+  document.removeEventListener("keydown", handleEscClose);
 }
 
 function handleProfileFormSubmit(evt) {
@@ -149,7 +151,7 @@ function handleAddCardSubmit(evt) {
   // After successful submit: reset fields and validation state, disable button
   addCardFormElement.reset();
   if (window.resetValidation) {
-    window.resetValidation(addCardFormElement, validationConfig);
+    window.resetValidation(addCardFormElement, window.validationConfig);
   }
   closeModal(newPostModal);
 }
@@ -162,7 +164,7 @@ editProfileButton.addEventListener("click", () => {
   descriptionInput.value = profileDescription.textContent.trim();
   // Ensure form is valid and clean of messages when opened
   if (window.resetValidation) {
-    window.resetValidation(profileFormElement, validationConfig);
+    window.resetValidation(profileFormElement, window.validationConfig);
   }
   openModal(profileModal);
 });
@@ -178,11 +180,16 @@ closeButtons.forEach((button) => {
   button.addEventListener("click", () => closeModal(modal));
 });
 
+// Close modal by clicking on the overlay (outside the modal container)
+const modals = document.querySelectorAll(".modal");
+modals.forEach((modal) => {
+  modal.addEventListener("click", (evt) => {
+    if (evt.target === modal) {
+      closeModal(modal);
+    }
+  });
+});
+
 initialCards.forEach((cardData) => {
   renderCard(cardData);
 });
-
-// Initialize validation after DOM is ready (scripts are at end of body)
-if (window.enableValidation) {
-  window.enableValidation(validationConfig);
-}

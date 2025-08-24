@@ -88,6 +88,10 @@ function resetValidation(formElement, config = defaultValidationConfig) {
   toggleButtonState(inputList, buttonElement, config);
 }
 
-// Expose functions to global scope
+// Expose functions and config to global scope
+window.validationConfig = defaultValidationConfig;
 window.enableValidation = enableValidation;
 window.resetValidation = resetValidation;
+
+// Initialize validation on load with default config
+enableValidation();
