@@ -183,8 +183,8 @@ closeButtons.forEach((button) => {
 // Close modal by clicking on the overlay (outside the modal container)
 const modals = document.querySelectorAll(".modal");
 modals.forEach((modal) => {
-  modal.addEventListener("click", (evt) => {
-    if (evt.target === modal) {
+  modal.addEventListener("mousedown", (evt) => {
+    if (evt.target === modal || evt.target.closest(".modal__close-button")) {
       closeModal(modal);
     }
   });
