@@ -1,31 +1,41 @@
+import { enableValidation, resetValidation, validationConfig } from "../scripts/validation.js";
+import "./index.css";
+import img1 from "../images/1-squamish.JPG";
+import img2 from "../images/2-prospect.JPG";
+import img3 from "../images/3-NF-FC.JPG";
+import img4 from "../images/4-aruba.JPG";
+import img5 from "../images/5-val-di-mello.JPG";
+import img6 from "../images/6-red-rocks.jpg";
+import img7 from "../images/7-vasquez-rocks.JPG";
+
 const initialCards = [
   {
     name: "Squamish, BC",
-    link: "./images/1-squamish.JPG",
+    link: img1,
   },
   {
     name: "Prospect Park",
-    link: "./images/2-prospect.JPG",
+    link: img2,
   },
   {
     name: "New York",
-    link: "./images/3-NF-FC.JPG",
+    link: img3,
   },
   {
     name: "Aruba",
-    link: "./images/4-aruba.JPG",
+    link: img4,
   },
   {
     name: "Val di Mello",
-    link: "./images/5-val-di-mello.JPG",
+    link: img5,
   },
   {
     name: "Red Rocks",
-    link: "./images/6-red-rocks.jpg",
+    link: img6,
   },
   {
     name: "Vasquez Rocks",
-    link: "./images/7-vasquez-rocks.JPG",
+    link: img7,
   },
 ];
 
@@ -150,9 +160,7 @@ function handleAddCardSubmit(evt) {
 
   // After successful submit: reset fields and validation state, disable button
   addCardFormElement.reset();
-  if (window.resetValidation) {
-    window.resetValidation(addCardFormElement, window.validationConfig);
-  }
+  resetValidation(addCardFormElement, validationConfig);
   closeModal(newPostModal);
 }
 
@@ -163,9 +171,7 @@ editProfileButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent.trim();
   descriptionInput.value = profileDescription.textContent.trim();
   // Ensure form is valid and clean of messages when opened
-  if (window.resetValidation) {
-    window.resetValidation(profileFormElement, window.validationConfig);
-  }
+  resetValidation(profileFormElement, validationConfig);
   openModal(profileModal);
 });
 
@@ -193,3 +199,6 @@ modals.forEach((modal) => {
 initialCards.forEach((cardData) => {
   renderCard(cardData);
 });
+
+// Initialize validation
+enableValidation(validationConfig);
