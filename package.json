@@ -7,8 +7,7 @@
     "build": "webpack --mode production",
     "dev": "webpack serve --mode development --open --hot",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "build:docs": "webpack --mode production --output-path docs"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
