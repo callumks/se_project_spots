@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack serve --mode development --open --hot"
+    "dev": "webpack serve --mode development --open --hot",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "build:docs": "webpack --mode production --output-path docs"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,7 @@
     "core-js": "^3.47.0",
     "css-loader": "^7.1.2",
     "cssnano": "^7.1.2",
+    "gh-pages": "^6.3.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.5",
     "mini-css-extract-plugin": "^2.9.4",
