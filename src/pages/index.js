@@ -5,7 +5,7 @@ import Api from "../utils/Api.js";
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6",
+    authorization: "570f0300-0a30-4a5e-b5dd-c11067412ce5",
     "Content-Type": "application/json",
   },
 });
@@ -16,6 +16,7 @@ const profileModal = document.querySelector("#edit-profile-modal");
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".profile__avatar");
 
 const nameInput = document.querySelector("#profile-name-input");
 const descriptionInput = document.querySelector("#profile-description-input");
@@ -59,13 +60,19 @@ function getCardElement(data, currentUserId) {
   cardTitle.textContent = data.name;
 
   // Check if current user liked this card
-  const isLiked = data.likes && data.likes.some((user) => user._id === currentUserId);
+  // API may return isLiked boolean or likes array
+  const isLiked = data.isLiked || (data.likes && data.likes.some((user) => {
+    // Handle both object format {_id: ...} and string ID format
+    const userId = typeof user === 'object' ? user._id : user;
+    return userId === currentUserId;
+  }));
   if (isLiked) {
     likeButton.classList.add("card__like-btn_active");
   }
 
   // Only show delete button if current user owns the card
-  if (data.owner && data.owner._id !== currentUserId) {
+  // owner is a string ID in the API response
+  if (data.owner && data.owner !== currentUserId) {
     deleteButton.style.display = "none";
   }
 
@@ -155,8 +162,13 @@ function handleProfileFormSubmit(evt) {
     about: newDescription,
   })
     .then((userData) => {
+      // Update profile info with server response
       profileName.textContent = userData.name;
       profileDescription.textContent = userData.about;
+      if (userData.avatar) {
+        profileAvatar.src = userData.avatar;
+        profileAvatar.alt = userData.name;
+      }
       closeModal(profileModal);
     })
     .catch((err) => {
@@ -223,9 +235,13 @@ api.getInitialData()
     // Set current user ID for card ownership checks
     currentUserId = userData._id;
 
-    // Update profile info
+    // Update profile info (name, about, and avatar)
     profileName.textContent = userData.name;
     profileDescription.textContent = userData.about;
+    if (userData.avatar) {
+      profileAvatar.src = userData.avatar;
+      profileAvatar.alt = userData.name;
+    }
 
     // Render cards after user information is received
     cardsData.forEach((cardData) => {
