@@ -19,11 +19,16 @@
 
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="./images/avatar-callum.jpeg"
-            alt="Callum Stoddart"
-            class="profile__avatar"
-          />
+          <div class="profile__avatar-container">
+            <img
+              src="./images/avatar-callum.jpeg"
+              alt="Callum Stoddart"
+              class="profile__avatar"
+            />
+            <button type="button" class="profile__avatar-edit-btn">
+              <img src="./images/Pencil.svg" alt="Edit Avatar" />
+            </button>
+          </div>
           <div class="profile__column">
             <h1 class="profile__name">Callum Stoddart</h1>
             <p class="profile__description">
@@ -145,6 +150,26 @@
           <form class="modal__form">
             <button type="submit" class="modal__submit-button modal__submit-button_type_delete">Yes, delete card</button>
             <button type="button" class="modal__cancel-button">Cancel</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal edit-avatar-modal" id="edit-avatar-modal">
+        <div class="modal__container">
+          <button type="button" class="modal__close-button"></button>
+          <h2 class="modal__title">Change profile picture</h2>
+          <form class="modal__form">
+            <label for="avatar-link-input" class="modal__label">
+              Image link
+              <input
+                id="avatar-link-input"
+                type="url"
+                class="modal__input"
+                placeholder="Paste a link to the picture"
+                required
+              />
+              <span id="avatar-link-input-error" class="modal__error"></span>
+            </label>
+            <button type="submit" class="modal__submit-button">Save</button>
           </form>
         </div>
       </div>
