@@ -8,6 +8,7 @@ class Api {
     if (res.ok) {
       return res.json();
     }
+    // if the server returns an error, reject the promise
     return Promise.reject(`Error: ${res.status}`);
   }
 
@@ -69,6 +70,11 @@ class Api {
     return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
     });
+  }
+
+  // Get initial data (user info and cards) using Promise.all()
+  getInitialData() {
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 }
 

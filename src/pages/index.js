@@ -217,8 +217,8 @@ modals.forEach((modal) => {
   });
 });
 
-// Load initial data
-Promise.all([api.getUserInfo(), api.getInitialCards()])
+// Load initial data - cards should be rendered after user information is received
+api.getInitialData()
   .then(([userData, cardsData]) => {
     // Set current user ID for card ownership checks
     currentUserId = userData._id;
@@ -227,7 +227,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     profileName.textContent = userData.name;
     profileDescription.textContent = userData.about;
 
-    // Render cards
+    // Render cards after user information is received
     cardsData.forEach((cardData) => {
       renderCard(cardData);
     });
