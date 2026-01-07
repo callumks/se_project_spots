@@ -1,43 +1,14 @@
 import { enableValidation, resetValidation, validationConfig } from "../scripts/validation.js";
 import "./index.css";
-import img1 from "../images/1-squamish.JPG";
-import img2 from "../images/2-prospect.JPG";
-import img3 from "../images/3-NF-FC.JPG";
-import img4 from "../images/4-aruba.JPG";
-import img5 from "../images/5-val-di-mello.JPG";
-import img6 from "../images/6-red-rocks.jpg";
-import img7 from "../images/7-vasquez-rocks.JPG";
+import Api from "../utils/Api.js";
 
-const initialCards = [
-  {
-    name: "Squamish, BC",
-    link: img1,
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6",
+    "Content-Type": "application/json",
   },
-  {
-    name: "Prospect Park",
-    link: img2,
-  },
-  {
-    name: "New York",
-    link: img3,
-  },
-  {
-    name: "Aruba",
-    link: img4,
-  },
-  {
-    name: "Val di Mello",
-    link: img5,
-  },
-  {
-    name: "Red Rocks",
-    link: img6,
-  },
-  {
-    name: "Vasquez Rocks",
-    link: img7,
-  },
-];
+});
 
 const editProfileButton = document.querySelector(".profile__edit-btn");
 
@@ -76,7 +47,7 @@ function handleEscClose(evt) {
   }
 }
 
-function getCardElement(data) {
+function getCardElement(data, currentUserId) {
   const cardElement = cardTemplate.content.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
@@ -86,6 +57,17 @@ function getCardElement(data) {
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
+
+  // Check if current user liked this card
+  const isLiked = data.likes && data.likes.some((user) => user._id === currentUserId);
+  if (isLiked) {
+    likeButton.classList.add("card__like-btn_active");
+  }
+
+  // Only show delete button if current user owns the card
+  if (data.owner && data.owner._id !== currentUserId) {
+    deleteButton.style.display = "none";
+  }
 
   cardImage.addEventListener("click", () => {
     previewImage.src = data.link;
@@ -106,19 +88,45 @@ function getCardElement(data) {
   });
 
   likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-btn_active");
+    const isCurrentlyLiked = likeButton.classList.contains("card__like-btn_active");
+    
+    if (isCurrentlyLiked) {
+      api.dislikeCard(data._id)
+        .then((updatedCard) => {
+          likeButton.classList.remove("card__like-btn_active");
+        })
+        .catch((err) => {
+          console.error("Error disliking card:", err);
+        });
+    } else {
+      api.likeCard(data._id)
+        .then((updatedCard) => {
+          likeButton.classList.add("card__like-btn_active");
+        })
+        .catch((err) => {
+          console.error("Error liking card:", err);
+        });
+    }
   });
 
   deleteButton.addEventListener("click", () => {
-    const cardToDelete = deleteButton.closest(".card");
-    cardToDelete.remove();
+    api.deleteCard(data._id)
+      .then(() => {
+        const cardToDelete = deleteButton.closest(".card");
+        cardToDelete.remove();
+      })
+      .catch((err) => {
+        console.error("Error deleting card:", err);
+      });
   });
 
   return cardElement;
 }
 
+let currentUserId = null;
+
 function renderCard(item, method = "prepend") {
-  const cardElement = getCardElement(item);
+  const cardElement = getCardElement(item, currentUserId);
   cardsList[method](cardElement);
 }
 
@@ -142,10 +150,18 @@ function handleProfileFormSubmit(evt) {
     return;
   }
 
-  profileName.textContent = newName;
-  profileDescription.textContent = newDescription;
-
-  closeModal(profileModal);
+  api.updateUserInfo({
+    name: newName,
+    about: newDescription,
+  })
+    .then((userData) => {
+      profileName.textContent = userData.name;
+      profileDescription.textContent = userData.about;
+      closeModal(profileModal);
+    })
+    .catch((err) => {
+      console.error("Error updating profile:", err);
+    });
 }
 
 function handleAddCardSubmit(evt) {
@@ -156,12 +172,17 @@ function handleAddCardSubmit(evt) {
     link: linkInput.value,
   };
 
-  renderCard(newCardData);
-
-  // After successful submit: reset fields and validation state, disable button
-  addCardFormElement.reset();
-  resetValidation(addCardFormElement, validationConfig);
-  closeModal(newPostModal);
+  api.createCard(newCardData)
+    .then((cardData) => {
+      renderCard(cardData);
+      // After successful submit: reset fields and validation state, disable button
+      addCardFormElement.reset();
+      resetValidation(addCardFormElement, validationConfig);
+      closeModal(newPostModal);
+    })
+    .catch((err) => {
+      console.error("Error creating card:", err);
+    });
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -196,9 +217,24 @@ modals.forEach((modal) => {
   });
 });
 
-initialCards.forEach((cardData) => {
-  renderCard(cardData);
-});
+// Load initial data
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cardsData]) => {
+    // Set current user ID for card ownership checks
+    currentUserId = userData._id;
+
+    // Update profile info
+    profileName.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+
+    // Render cards
+    cardsData.forEach((cardData) => {
+      renderCard(cardData);
+    });
+  })
+  .catch((err) => {
+    console.error("Error loading initial data:", err);
+  });
 
 // Initialize validation
 enableValidation(validationConfig);
