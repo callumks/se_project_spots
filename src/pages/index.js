@@ -38,6 +38,14 @@ const previewImageModal = document.querySelector("#preview-image-modal");
 const previewImage = previewImageModal.querySelector(".modal__image");
 const previewCaption = previewImageModal.querySelector(".modal__caption");
 
+const deleteCardModal = document.querySelector("#delete-card-modal");
+const deleteCardForm = deleteCardModal.querySelector(".modal__form");
+const deleteCancelButton = deleteCardModal.querySelector(".modal__cancel-button");
+
+// Variables to store the current selected card and its ID
+let selectedCard;
+let selectedCardId;
+
 // Escape key handler for open modals
 function handleEscClose(evt) {
   if (evt.key === "Escape") {
@@ -116,15 +124,8 @@ function getCardElement(data, currentUserId) {
     }
   });
 
-  deleteButton.addEventListener("click", () => {
-    api.deleteCard(data._id)
-      .then(() => {
-        const cardToDelete = deleteButton.closest(".card");
-        cardToDelete.remove();
-      })
-      .catch((err) => {
-        console.error("Error deleting card:", err);
-      });
+  deleteButton.addEventListener("click", (evt) => {
+    handleDeleteCard(evt, data);
   });
 
   return cardElement;
@@ -135,6 +136,31 @@ let currentUserId = null;
 function renderCard(item, method = "prepend") {
   const cardElement = getCardElement(item, currentUserId);
   cardsList[method](cardElement);
+}
+
+// Handle delete card button click - opens confirmation modal
+function handleDeleteCard(evt, data) {
+  // Get the actual card element from the DOM using the event target
+  selectedCard = evt.target.closest(".card");
+  selectedCardId = data._id;
+  openModal(deleteCardModal);
+}
+
+// Handle delete confirmation form submission
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  
+  api.deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteCardModal);
+      // Clear the selected card references
+      selectedCard = null;
+      selectedCardId = null;
+    })
+    .catch((err) => {
+      console.error("Error deleting card:", err);
+    });
 }
 
 function openModal(modal) {
@@ -199,6 +225,7 @@ function handleAddCardSubmit(evt) {
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
+deleteCardForm.addEventListener("submit", handleDeleteSubmit);
 
 editProfileButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent.trim();
@@ -210,6 +237,13 @@ editProfileButton.addEventListener("click", () => {
 
 addButton.addEventListener("click", () => {
   openModal(newPostModal);
+});
+
+deleteCancelButton.addEventListener("click", () => {
+  closeModal(deleteCardModal);
+  // Clear the selected card references
+  selectedCard = null;
+  selectedCardId = null;
 });
 
 const closeButtons = document.querySelectorAll(".modal__close-button");
